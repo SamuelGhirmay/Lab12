@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<header th:replace="fragments/header :: header"></header>
 <div class="container my-5">
     <h3> Add Student</h3>
     <div class="card">
@@ -53,6 +54,8 @@
         </div>
     </div>
 </div>
+
+<div th:replace="/fragments/footer :: footer"></div>
 </body>
 
 </html>
