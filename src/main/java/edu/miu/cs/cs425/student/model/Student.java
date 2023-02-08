@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,19 +22,21 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
-
+    @NotEmpty(message = "Student Number can't be empty")
     private String studentNumber;
-
+    @NotEmpty(message = "Student First Name can't be empty")
     private String firstName;
     private String middleName;
-
+    @NotEmpty(message = "Student Last Name can't be empty")
     private String lastName;
 
     private Double cgpa;
-
+    @NotNull(message = "Student Date Of Onrollment can't be null")
     private LocalDate dateOfEnrollment;
+   // @NotEmpty(message = "Student must be either international or not")
+    private Boolean isInternational;
 
-    public Student(Long studentId, String studentNumber, String firstName, String middleName, String lastName, Double cgpa, LocalDate dateOfEnrollment) {
+    public Student(Long studentId, String studentNumber, String firstName, String middleName, String lastName, Double cgpa, LocalDate dateOfEnrollment,Boolean isInternational) {
         this.studentId = studentId;
         this.studentNumber = studentNumber;
         this.firstName = firstName;
@@ -41,6 +44,7 @@ public class Student {
         this.lastName = lastName;
         this.cgpa = cgpa;
         this.dateOfEnrollment = dateOfEnrollment;
+        this.isInternational=isInternational;
     }
 
     public Student(){}
@@ -101,6 +105,14 @@ public class Student {
         this.dateOfEnrollment = dateOfEnrollment;
     }
 
+    public Boolean getIsInternational() {
+        return isInternational;
+    }
+
+    public void setIsInternational(Boolean isInternational) {
+        this.isInternational = isInternational;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -111,6 +123,7 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", cgpa=" + cgpa +
                 ", dateOfEnrollment=" + dateOfEnrollment +
+                ", isInternational=" + isInternational +
                 '}';
     }
 }

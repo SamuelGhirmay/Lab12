@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet"
@@ -9,6 +9,10 @@
   <title>Maharishi Universtiy</title>
 </head>
 <body>
+
+
+
+
 <header th:replace="fragments/header :: header"></header>
 <main>
 
@@ -36,6 +40,9 @@
         <th>LastName</th>
         <th>Gpa</th>
         <th>Date Of Enrollment</th>
+        <th>International</th>
+        <th>Edit Student</th>
+        <th>Delete Student</th>
       </tr>
       </thead>
       <tbody>
@@ -45,6 +52,17 @@
         <td th:text="${student.lastName}"></td>
         <td th:text="${student.cgpa}"></td>
         <td th:text="${student.dateOfEnrollment}"></td>
+        <td th:text="${student.isInternational} ? 'Yes' : 'No'"></td>
+        <td>
+          <a th:href="@{'/secured/student/list/edit/{studentId}'(studentId=${student.studentId})}">
+            <i class="fa-regular fa-pen-to-square"></i> Edit Student
+          </a>
+        </td>
+        <td>
+          <a th:href="@{'/secured/student/list/delete/{studentId}'(studentId=${student.studentId})}">
+            <i class="fa-solid fa-delete-left"></i> Delete Student
+          </a>
+        </td>
       </tr>
 <!--      <tr th:if="${student.isEmpty()}">-->
 <!--        <td colspan="3" th:align="center">No Student found</td>-->

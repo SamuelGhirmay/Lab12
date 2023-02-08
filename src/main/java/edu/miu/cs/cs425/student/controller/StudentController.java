@@ -11,14 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = {"/","/secured/student"})
 public class StudentController {
     @Autowired
     StudentService studentService;
-    @GetMapping(value = {"/secured/student/home","/"})
+
+
+// Home Page
+
+    @GetMapping(value = {"/home","/"})
     public String displayHome(){
         return "public/index";
     }
-    @GetMapping(value = "/secured/student/list")
+
+
+
+//Dispalying The Lists
+
+    @GetMapping(value = "/list")
     public ModelAndView displayListOfStudent(){
         var modelAndView=new ModelAndView();
         var student=studentService.getAllStudent();
@@ -27,27 +37,31 @@ public class StudentController {
         return modelAndView;
     }
 
-    @GetMapping(value={"/secured/student/new"})
+
+//Adding New Student
+
+
+    @GetMapping(value={"/new"})
     public String displayAddingPage(Model model){
         model.addAttribute("student",new Student());
         return "secured/student/new";
     }
-    @PostMapping(value={"/secured/student/new"})
+    @PostMapping(value={"/new"})
     public String addStudent(@Valid @ModelAttribute("student")Student student,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             model.addAttribute("student",student);
             model.addAttribute("error",result.getAllErrors());
             return "secured/student/new";
         }
-
         studentService.addNewStudent(student);
         return "redirect:/secured/student/list";
     }
 
     //Delete
 
-        @GetMapping(value = {"/secured/student/list/delete/{studentId}"})
+        @GetMapping(value = {"/list/delete/{studentId}"})
     public String deletePublisher(@PathVariable Long studentId) {
             studentService.deleteStudent(studentId);
         return "redirect:/secured/student/list";
@@ -55,7 +69,7 @@ public class StudentController {
 
     //Editing
 
-    @GetMapping(value = {"/secured/student/list/edit/{studentId}"})
+    @GetMapping(value = {"/list/edit/{studentId}"})
     public String editStudent(@PathVariable Long studentId, Model model) {
         var student = studentService.getStudentById(studentId);
         if(student != null) {
@@ -65,7 +79,7 @@ public class StudentController {
         return "redirect:/secured/student/list";
     }
 
-        @PostMapping(value = {"/secured/student/update/{studentId}"})
+        @PostMapping(value = {"/update/{studentId}"})
     public String updateStudent(@Valid @ModelAttribute("studentId") Student student,
                                   BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
@@ -78,13 +92,13 @@ public class StudentController {
         return "redirect:/secured/student/list";
     }
 
-    @GetMapping(value = {"/secured/student/searchview"})
+    @GetMapping(value = {"/searchview"})
     public String displaySearch(){
         return "secured/searched/search";
     }
 
 
-    @GetMapping(value = {"/secured/student/search"})
+    @GetMapping(value = {"/search"})
     public ModelAndView searchStudent(@RequestParam String searchString) {
         var modelAndView = new ModelAndView();
         var student = studentService.findStudentByName(searchString);
